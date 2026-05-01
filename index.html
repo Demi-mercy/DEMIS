@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demi's Fashion House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body>
+
+<!-- ─── LOGIN SCREEN ─── -->
+<div id="screen-login" class="screen active">
+  <div class="login-bg">
+    <div class="login-orb orb1"></div>
+    <div class="login-orb orb2"></div>
+    <div class="login-orb orb3"></div>
+  </div>
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="logo-d">D</span>
+      <div>
+        <div class="brand-name">Demi's Fashion House</div>
+        <div class="brand-tagline">Catalogue &amp; Order Management</div>
+      </div>
+    </div>
+    <h2 class="login-title">Welcome back</h2>
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="admin@demisfashionhouse.com" value="admin@demisfashionhouse.com">
+    </div>
+    <div class="form-field">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" value="••••••••">
+    </div>
+    <button class="btn-login" onclick="doLogin()">Sign in</button>
+    <p class="login-hint">Admin access only · Clients browse as guests</p>
+  </div>
+</div>
+
+<!-- ─── GUEST CATALOGUE ─── -->
+<div id="screen-guest" class="screen">
+  <nav class="guest-nav">
+    <div class="guest-logo">
+      <span class="logo-d small">D</span>
+      <span class="brand-name">Demi's Fashion House</span>
+    </div>
+    <div class="guest-nav-right">
+      <span class="guest-tagline">Latest Designs</span>
+      <button class="btn-outline-sm" onclick="showScreen('screen-login')">Admin Login</button>
+    </div>
+  </nav>
+  <div class="guest-hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">New Season · 2026</p>
+      <h1 class="hero-title">The <em>Catalogue</em></h1>
+      <p class="hero-sub">Bespoke fashion, crafted for you. Browse our latest designs, choose your fabric, and place your order via WhatsApp.</p>
+      <button class="btn-hero" onclick="document.getElementById('guest-catalogue').scrollIntoView({behavior:'smooth'})">Browse Designs</button>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-tile t1">👗</div>
+      <div class="hero-tile t2">👘</div>
+      <div class="hero-tile t3">👖</div>
+      <div class="hero-tile t4">✨</div>
+    </div>
+  </div>
+  <div id="guest-catalogue" class="guest-section">
+    <div class="section-header">
+      <h2>Current Collection</h2>
+      <div class="filter-pills" id="guest-filters">
+        <button class="pill active" onclick="guestFilter('All',this)">All</button>
+        <button class="pill" onclick="guestFilter('Cargo Pants',this)">Cargo Pants</button>
+        <button class="pill" onclick="guestFilter('Kaftan',this)">Kaftan</button>
+        <button class="pill" onclick="guestFilter('Dress',this)">Dress</button>
+        <button class="pill" onclick="guestFilter('Co-ord',this)">Co-ord</button>
+      </div>
+    </div>
+    <div class="guest-grid" id="guest-grid"></div>
+  </div>
+  <footer class="guest-footer">
+    <div class="footer-logo">
+      <span class="logo-d small">D</span>
+      <span class="brand-name">Demi's Fashion House</span>
+    </div>
+    <div class="footer-links">
+      <a href="#" onclick="openWA('Hello! I want to browse the catalogue')">WhatsApp Us</a>
+      <span>·</span>
+      <a href="#" onclick="showScreen('screen-login')">Admin</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ─── ADMIN APP ─── -->
+<div id="screen-admin" class="screen">
+  <div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-d">D</span>
+        <div>
+          <div class="brand-name">Demi's Fashion House</div>
+          <div class="brand-tagline small">Admin Panel</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link active" onclick="showAdminPage('dashboard',this)"><span class="nav-icon">◼</span>Dashboard</a>
+        <a class="nav-link" onclick="showAdminPage('catalogue',this)"><span class="nav-icon">◈</span>Catalogue</a>
+        <a class="nav-link" onclick="showAdminPage('orders',this)">
+          <span class="nav-icon">≡</span>Orders
+          <span class="nav-badge" id="pending-badge">4</span>
+        </a>
+        <a class="nav-link" onclick="showAdminPage('clients',this)"><span class="nav-icon">◎</span>Clients</a>
+        <div class="nav-divider"></div>
+        <a class="nav-link" onclick="showAdminPage('whatsapp',this)"><span class="nav-icon">◉</span>WhatsApp</a>
+        <a class="nav-link" onclick="showAdminPage('payments',this)"><span class="nav-icon">◇</span>Payments</a>
+        <a class="nav-link" onclick="showAdminPage('settings',this)"><span class="nav-icon">⊕</span>Settings</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="admin-profile">
+          <div class="avatar-circle">D</div>
+          <div>
+            <div style="font-size:13px;font-weight:500">Demi Admin</div>
+            <div style="font-size:11px;color:var(--muted)">admin@demisfashion.com</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="showScreen('screen-login')">Sign out</button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="admin-main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title" id="page-title">Dashboard</h1>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-ghost" onclick="showScreen('screen-guest')">👁 Preview Guest View</button>
+          <button class="btn-primary-sm" onclick="openModal('modal-upload')">+ Upload Design</button>
+        </div>
+      </div>
+
+      <!-- ── DASHBOARD ── -->
+      <div class="admin-page" id="page-dashboard">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-val">24</div>
+            <div class="stat-lbl">Total designs</div>
+            <div class="stat-change up">+3 this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">12</div>
+            <div class="stat-lbl">Active orders</div>
+            <div class="stat-change up">4 need action</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">₦680k</div>
+            <div class="stat-lbl">April revenue</div>
+            <div class="stat-change up">+18% vs Mar</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">38</div>
+            <div class="stat-lbl">Clients</div>
+            <div class="stat-change up">+5 this month</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card wide">
+            <div class="card-header">
+              <h3>Recent Orders</h3>
+              <button class="btn-link" onclick="showAdminPage('orders',null)">View all →</button>
+            </div>
+            <table class="data-table">
+              <thead><tr><th>Client</th><th>Item</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Adaeze O.</strong></td><td>Cargo Pants – Olive</td><td class="amount">₦35,000</td><td><span class="status ready">Ready</span></td><td><button class="btn-wa" onclick="openWA('Hello Adaeze! Your Cargo Pants are ready 🎉')">WA</button></td></tr>
+                <tr><td><strong>Bimpe A.</strong></td><td>Kaftan – Ankara</td><td class="amount">₦55,000</td><td><span class="status confirmed">Confirmed</span></td><td><button class="btn-wa" onclick="openWA('Hello Bimpe!')">WA</button></td></tr>
+                <tr><td><strong>Ngozi E.</strong></td><td>Midi Dress – Lace</td><td class="amount">₦48,000</td><td><span class="status pending">Pending</span></td><td><button class="btn-wa" onclick="openWA('Hello Ngozi!')">WA</button></td></tr>
+                <tr><td><strong>Chisom M.</strong></td><td>Co-ord Set – Tie-dye</td><td class="amount">₦62,000</td><td><span class="status delivered">Delivered</span></td><td><button class="btn-wa" onclick="openWA('Thank you Chisom!')">WA</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="dash-card">
+            <div class="card-header"><h3>Quick Actions</h3></div>
+            <div class="quick-actions">
+              <button class="qa-btn" onclick="openModal('modal-upload')">
+                <span class="qa-icon">📷</span>
+                <span>Upload Design</span>
+              </button>
+              <button class="qa-btn" onclick="openModal('modal-order')">
+                <span class="qa-icon">📋</span>
+                <span>New Order</span>
+              </button>
+              <button class="qa-btn" onclick="showAdminPage('whatsapp',null)">
+                <span class="qa-icon">💬</span>
+                <span>Share Catalogue</span>
+              </button>
+              <button class="qa-btn" onclick="openModal('modal-client')">
+                <span class="qa-icon">👤</span>
+                <span>Add Client</span>
+              </button>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="card-header"><h3>Top Designs</h3></div>
+            <div class="top-items">
+              <div class="top-item"><span class="top-rank">1</span><span class="top-name">Cargo Pants – Olive</span><span class="top-val">₦105k</span></div>
+              <div class="top-item"><span class="top-rank">2</span><span class="top-name">Boubou – Gold</span><span class="top-val">₦150k</span></div>
+              <div class="top-item"><span class="top-rank">3</span><span class="top-name">Kaftan – Ankara</span><span class="top-val">₦110k</span></div>
+              <div class="top-item"><span class="top-rank">4</span><span class="top-name">Midi Dress – Lace</span><span class="top-val">₦96k</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CATALOGUE ── -->
+      <div class="admin-page hidden" id="page-catalogue">
+        <div class="page-toolbar">
+          <input class="search-input" placeholder="Search designs, fabrics, tags…" oninput="adminFilterCatalogue(this.value)">
+          <div class="filter-pills">
+            <button class="pill active" onclick="adminCatFilter('All',this)">All</button>
+            <button class="pill" onclick="adminCatFilter('Cargo Pants',this)">Cargo Pants</button>
+            <button class="pill" onclick="adminCatFilter('Kaftan',this)">Kaftan</button>
+            <button class="pill" onclick="adminCatFilter('Dress',this)">Dress</button>
+            <button class="pill" onclick="adminCatFilter('Co-ord',this)">Co-ord</button>
+          </div>
+        </div>
+        <div class="admin-grid" id="admin-catalogue-grid"></div>
+      </div>
+
+      <!-- ── ORDERS ── -->
+      <div class="admin-page hidden" id="page-orders">
+        <div class="page-toolbar">
+          <input class="search-input" placeholder="Search orders…">
+          <div class="filter-pills">
+            <button class="pill active" onclick="filterOrders('All',this)">All</button>
+            <button class="pill" onclick="filterOrders('Pending',this)">Pending</button>
+            <button class="pill" onclick="filterOrders('Confirmed',this)">Confirmed</button>
+            <button class="pill" onclick="filterOrders('Ready',this)">Ready</button>
+            <button class="pill" onclick="filterOrders('Delivered',this)">Delivered</button>
+          </div>
+          <button class="btn-primary-sm" onclick="openModal('modal-order')">+ New Order</button>
+        </div>
+        <table class="data-table full-width" id="orders-table">
+          <thead><tr><th>Order ID</th><th>Client</th><th>WhatsApp</th><th>Item</th><th>Size</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="orders-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- ── CLIENTS ── -->
+      <div class="admin-page hidden" id="page-clients">
+        <div class="page-toolbar">
+          <input class="search-input" placeholder="Search clients…" oninput="filterClients(this.value)">
+          <button class="btn-primary-sm" onclick="openModal('modal-client')">+ Add Client</button>
+        </div>
+        <div class="clients-grid" id="clients-grid"></div>
+      </div>
+
+      <!-- ── WHATSAPP ── -->
+      <div class="admin-page hidden" id="page-whatsapp">
+        <div class="wa-layout">
+          <div class="wa-panel">
+            <div class="wa-section">
+              <h3>Order ready notification</h3>
+              <div class="wa-bubble" id="wa-order-msg">Hello Adaeze 👋
+
+Your order is ready!
+
+🧵 *Item:* Cargo Pants – Olive Twill
+💰 *Amount:* ₦35,000
+📍 *Pickup:* Demi's Fashion House, Abuja
+
+Reply to confirm delivery. 🛍️
+
+— Demi's Fashion House ✨</div>
+              <div class="wa-actions">
+                <button class="btn-wa-big" onclick="openWA(document.getElementById('wa-order-msg').textContent)">Send on WhatsApp ↗</button>
+                <select class="select-sm" onchange="fillOrderWA(this.value)">
+                  <option value="">Select client…</option>
+                  <option>Adaeze O. — Cargo Pants</option>
+                  <option>Bimpe A. — Kaftan</option>
+                  <option>Ngozi E. — Midi Dress</option>
+                </select>
+              </div>
+            </div>
+            <div class="wa-section">
+              <h3>Share a design</h3>
+              <div class="wa-bubble">Hello! 👗
+
+Check out this piece from *Demi's Fashion House*!
+
+🪡 *Cargo Pants – Olive Twill*
+💰 ₦35,000
+🎨 Fabric: Twill / Cotton blend
+📏 Sizes: S, M, L, XL
+
+DM us to order 🛍️
+📲 +234 800 000 0000</div>
+              <div class="wa-actions">
+                <select class="select-sm">
+                  <option>Cargo Pants – Olive</option>
+                  <option>Kaftan – Ankara</option>
+                  <option>Midi Dress – Lace</option>
+                </select>
+                <button class="btn-wa-big" onclick="openWA('Hello! Check out this design from Demi\'s Fashion House 👗')">Share Design ↗</button>
+              </div>
+            </div>
+          </div>
+          <div class="wa-panel">
+            <div class="wa-section">
+              <h3>Broadcast new arrivals</h3>
+              <textarea class="wa-textarea" id="broadcast-text">🌟 NEW ARRIVALS — Demi's Fashion House!
+
+We just dropped stunning new pieces ✨
+
+✅ Cargo Pants (Olive & Black)
+✅ Ankara Kaftan
+✅ Lace Midi Dress
+✅ Tie-dye Co-ord Set
+
+DM us or reply YES to get the full lookbook 📲
+
+— Demi's Fashion House
++234 800 000 0000</textarea>
+              <button class="btn-wa-big full" onclick="openWA(document.getElementById('broadcast-text').value)">Broadcast to All Clients ↗</button>
+            </div>
+            <div class="wa-section">
+              <h3>Payment link</h3>
+              <div class="payment-link-builder">
+                <div class="form-row-2">
+                  <div class="form-field-sm">
+                    <label>Client name</label>
+                    <input type="text" placeholder="Adaeze" id="pay-client">
+                  </div>
+                  <div class="form-field-sm">
+                    <label>Amount (₦)</label>
+                    <input type="number" placeholder="35000" id="pay-amount">
+                  </div>
+                </div>
+                <div class="form-field-sm">
+                  <label>Gateway</label>
+                  <select id="pay-gateway">
+                    <option value="paystack">Paystack</option>
+                    <option value="flutterwave">Flutterwave</option>
+                  </select>
+                </div>
+                <button class="btn-wa-big full" onclick="generatePayLink()">Generate &amp; Send Payment Link ↗</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAYMENTS ── -->
+      <div class="admin-page hidden" id="page-payments">
+        <div class="pay-stats">
+          <div class="stat-card"><div class="stat-val">₦680k</div><div class="stat-lbl">April revenue</div></div>
+          <div class="stat-card"><div class="stat-val">₦145k</div><div class="stat-lbl">Outstanding</div></div>
+          <div class="stat-card"><div class="stat-val">9</div><div class="stat-lbl">Paid orders</div></div>
+          <div class="stat-card"><div class="stat-val">3</div><div class="stat-lbl">Awaiting payment</div></div>
+        </div>
+        <div class="gateways-row">
+          <div class="gateway-card paystack">
+            <div class="gw-logo">Paystack</div>
+            <div class="gw-desc">Nigerian cards, bank transfers, USSD, mobile money</div>
+            <div class="gw-status connected">● Connected</div>
+            <div class="gw-keys">
+              <div class="form-field-sm"><label>Public Key</label><input type="text" placeholder="pk_live_xxxxxxxxxxxxxxx" value="pk_live_••••••••••••••••"></div>
+              <div class="form-field-sm"><label>Secret Key</label><input type="password" placeholder="sk_live_xxxxxxxxxxxxxxx" value="sk_live_••••••••••••••••"></div>
+            </div>
+            <button class="btn-gw" onclick="alert('Paystack test payment initiated — see /api/paystack/initiate')">Test Payment</button>
+          </div>
+          <div class="gateway-card flutterwave">
+            <div class="gw-logo">Flutterwave</div>
+            <div class="gw-desc">Cards, bank transfers, mobile money, USSD, M-Pesa</div>
+            <div class="gw-status disconnected">○ Not configured</div>
+            <div class="gw-keys">
+              <div class="form-field-sm"><label>Public Key</label><input type="text" placeholder="FLWPUBK_TEST-xxxxx"></div>
+              <div class="form-field-sm"><label>Secret Key</label><input type="password" placeholder="FLWSECK_TEST-xxxxx"></div>
+            </div>
+            <button class="btn-gw flw" onclick="alert('Save your Flutterwave keys to connect')">Connect Flutterwave</button>
+          </div>
+        </div>
+        <div class="dash-card" style="margin-top:1.5rem">
+          <div class="card-header"><h3>Transaction History</h3></div>
+          <table class="data-table full-width">
+            <thead><tr><th>Ref</th><th>Client</th><th>Item</th><th>Amount</th><th>Gateway</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">PSK-20042601</td><td>Adaeze O.</td><td>Cargo Pants</td><td class="amount">₦35,000</td><td><span class="gw-tag ps">Paystack</span></td><td>Apr 26</td><td><span class="status ready">Paid</span></td></tr>
+              <tr><td class="mono">PSK-20042602</td><td>Bimpe A.</td><td>Kaftan – Ankara</td><td class="amount">₦55,000</td><td><span class="gw-tag ps">Paystack</span></td><td>Apr 27</td><td><span class="status confirmed">Confirmed</span></td></tr>
+              <tr><td class="mono">—</td><td>Ngozi E.</td><td>Midi Dress</td><td class="amount">₦48,000</td><td>—</td><td>Apr 25</td><td><span class="status pending">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="admin-page hidden" id="page-settings">
+        <div class="settings-layout">
+          <div class="settings-section">
+            <h3>Store Information</h3>
+            <div class="form-field"><label>Business Name</label><input type="text" value="Demi's Fashion House"></div>
+            <div class="form-field"><label>WhatsApp Number</label><input type="tel" value="+234 800 000 0000"></div>
+            <div class="form-field"><label>Address</label><input type="text" value="Abuja, FCT, Nigeria"></div>
+            <div class="form-field"><label>Instagram Handle</label><input type="text" value="@demisfashionhouse"></div>
+            <button class="btn-primary-sm" onclick="alert('Settings saved!')">Save Changes</button>
+          </div>
+          <div class="settings-section">
+            <h3>Catalogue Sharing</h3>
+            <div class="share-link-box">
+              <div class="form-field"><label>Public Catalogue URL</label><input type="text" value="https://demisfashionhouse.com/catalogue" readonly></div>
+              <button class="btn-outline-sm" onclick="alert('Link copied!')">Copy Link</button>
+            </div>
+            <div class="form-field"><label>WhatsApp Catalogue Message</label><textarea style="height:80px">Hi! 👋 Browse Demi's Fashion House latest designs: https://demisfashionhouse.com/catalogue</textarea></div>
+            <button class="btn-wa-big" onclick="openWA('Hi! Browse our latest designs: https://demisfashionhouse.com/catalogue')">Share Catalogue on WhatsApp ↗</button>
+          </div>
+          <div class="settings-section">
+            <h3>Admin Password</h3>
+            <div class="form-field"><label>Current password</label><input type="password" placeholder="••••••••"></div>
+            <div class="form-field"><label>New password</label><input type="password" placeholder="••••••••"></div>
+            <div class="form-field"><label>Confirm new password</label><input type="password" placeholder="••••••••"></div>
+            <button class="btn-primary-sm" onclick="alert('Password updated!')">Update Password</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ─── MODALS ─── -->
+<div class="modal-overlay hidden" id="modal-upload" onclick="closeModalOnBg(event,'modal-upload')">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Upload New Design</h3>
+      <button class="modal-close" onclick="closeModal('modal-upload')">✕</button>
+    </div>
+    <div class="upload-zone" onclick="document.getElementById('img-input').click()">
+      <div class="upload-icon">📷</div>
+      <p>Click to upload design photos</p>
+      <small>JPG, PNG, WebP — up to 10MB each. Multiple allowed.</small>
+      <input type="file" id="img-input" multiple accept="image/*" style="display:none" onchange="previewImages(this)">
+    </div>
+    <div class="img-preview-row" id="img-preview-row"></div>
+    <div class="form-row-2">
+      <div class="form-field"><label>Design Name</label><input type="text" placeholder="e.g. Cargo Pants – Olive"></div>
+      <div class="form-field"><label>Category</label>
+        <select><option>Cargo Pants</option><option>Kaftan</option><option>Dress</option><option>Co-ord</option><option>Top</option><option>Skirt</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-field"><label>Price (₦)</label><input type="number" placeholder="35000"></div>
+      <div class="form-field"><label>Availability</label>
+        <select><option>Available</option><option>Made to Order</option><option>Sold Out</option></select>
+      </div>
+    </div>
+    <div class="form-field"><label>Fabric / Pattern Tags</label><input type="text" placeholder="e.g. Twill, Cotton, Olive, Cargo, Streetwear (comma-separated)"></div>
+    <div class="form-field"><label>Available Sizes</label><input type="text" placeholder="e.g. S, M, L, XL, XXL, Custom"></div>
+    <div class="form-field"><label>Description (optional)</label><textarea placeholder="Describe the design, fabric details, care instructions…"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-upload')">Cancel</button>
+      <button class="btn-primary-sm" onclick="saveDesign()">Save to Catalogue</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-order" onclick="closeModalOnBg(event,'modal-order')">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Create New Order</h3>
+      <button class="modal-close" onclick="closeModal('modal-order')">✕</button>
+    </div>
+    <div class="form-row-2">
+      <div class="form-field"><label>Client Name</label><input type="text" placeholder="Full name" id="o-client"></div>
+      <div class="form-field"><label>WhatsApp Number</label><input type="tel" placeholder="+234 801 234 5678" id="o-wa"></div>
+    </div>
+    <div class="form-field"><label>Design / Item</label>
+      <select id="o-item">
+        <option>Cargo Pants – Olive</option>
+        <option>Cargo Pants – Black</option>
+        <option>Kaftan – Ankara</option>
+        <option>Midi Dress – Lace</option>
+        <option>Co-ord Set – Tie-dye</option>
+        <option>Boubou – Gold</option>
+      </select>
+    </div>
+    <div class="form-row-2">
+      <div class="form-field"><label>Size</label>
+        <select id="o-size"><option>XS</option><option>S</option><option selected>M</option><option>L</option><option>XL</option><option>XXL</option><option>Custom</option></select>
+      </div>
+      <div class="form-field"><label>Amount (₦)</label><input type="number" placeholder="35000" id="o-amount"></div>
+    </div>
+    <div class="form-field"><label>Payment Method</label>
+      <select id="o-pay">
+        <option>Paystack</option>
+        <option>Flutterwave</option>
+        <option>Bank Transfer</option>
+        <option>Pay on Delivery</option>
+      </select>
+    </div>
+    <div class="form-field"><label>Delivery Address</label><input type="text" placeholder="Abuja, Lagos, Port Harcourt…" id="o-addr"></div>
+    <div class="form-field"><label>Notes / Customisation</label><textarea placeholder="Measurements, colour preference, fabric, special instructions…" id="o-notes"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-order')">Cancel</button>
+      <button class="btn-wa-sm" onclick="createOrderAndWA()">Create + Send WA Confirmation</button>
+      <button class="btn-primary-sm" onclick="createOrder()">Create Order</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-client" onclick="closeModalOnBg(event,'modal-client')">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add New Client</h3>
+      <button class="modal-close" onclick="closeModal('modal-client')">✕</button>
+    </div>
+    <div class="form-row-2">
+      <div class="form-field"><label>Full Name</label><input type="text" placeholder="e.g. Adaeze Okafor"></div>
+      <div class="form-field"><label>WhatsApp Number</label><input type="tel" placeholder="+234 801 234 5678"></div>
+    </div>
+    <div class="form-field"><label>Email (optional)</label><input type="email" placeholder="adaeze@email.com"></div>
+    <div class="form-row-2">
+      <div class="form-field"><label>City</label><input type="text" placeholder="Abuja, Lagos, Enugu…"></div>
+      <div class="form-field"><label>Birthday (optional)</label><input type="date"></div>
+    </div>
+    <div class="form-field"><label>Style Notes</label><textarea placeholder="Preferences, measurements, fabric likes/dislikes, VIP status…"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-client')">Cancel</button>
+      <button class="btn-primary-sm" onclick="saveClient()">Add Client</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-design-detail" onclick="closeModalOnBg(event,'modal-design-detail')">
+  <div class="modal wide">
+    <div class="modal-header">
+      <h3 id="detail-title">Design Detail</h3>
+      <button class="modal-close" onclick="closeModal('modal-design-detail')">✕</button>
+    </div>
+    <div class="detail-body" id="detail-body"></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal('modal-design-detail')">Close</button>
+      <button class="btn-wa-sm" onclick="shareDesignWA()">Share on WhatsApp</button>
+      <button class="btn-primary-sm" onclick="openModal('modal-order');closeModal('modal-design-detail')">Create Order</button>
+    </div>
+  </div>
+</div>
+
+<script src="src/lib/data.js"></script>
+<script src="src/lib/app.js"></script>
+</body>
+</html>
